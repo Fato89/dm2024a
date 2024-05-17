@@ -1,0 +1,2 @@
+max_depth	min_split	cp	minbucket	ganancia_promedio
+8	650	-0.5	325	48592000

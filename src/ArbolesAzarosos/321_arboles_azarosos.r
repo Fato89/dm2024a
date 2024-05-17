@@ -30,8 +30,6 @@ purrr::map(
   loop_parms,
   ~{
 
-
-
 # parameetros rpart
 PARAM$rpart_param <- list(
   "cp" = -1,
