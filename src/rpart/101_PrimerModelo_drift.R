@@ -8,7 +8,7 @@ require("rpart.plot")
 
 # Aqui se debe poner la carpeta de la materia de SU computadora local
 setwd("c:/proyectos/mineriadatos/dm2024a/") # Establezco el Working Directory
-nombre_archivo <- "K101_017.csv"
+nombre_archivo <- "K101_021.csv"
 
 # cargo el dataset
 dataset <- fread("./datasets/dataset_pequeno.csv")
@@ -22,17 +22,17 @@ modelo <- rpart(
         formula = "clase_ternaria ~ .",
         data = dtrain, # los datos donde voy a entrenar
         xval = 0,
-        cp = -1, # esto significa no limitar la complejidad de los splits
-        minsplit = 370, # minima cantidad de registros para que se haga el split
-        minbucket = 222, # tamaño minimo de una hoja
-        maxdepth = 6
+        cp = -0.4216217, # esto significa no limitar la complejidad de los splits
+        minsplit = 130, # minima cantidad de registros para que se haga el split
+        minbucket = 36, # tamaño minimo de una hoja
+        maxdepth = 5
 ) # profundidad maxima del arbol
 
 # grafico el arbol
-prp(modelo,
-        extra = 101, digits = -5,
-        branch = 1, type = 4, varlen = 0, faclen = 0
-)
+# prp(modelo,
+#         extra = 101, digits = -5,
+#         branch = 1, type = 4, varlen = 0, faclen = 0
+# )
 
 
 # aplico el modelo a los datos nuevos
