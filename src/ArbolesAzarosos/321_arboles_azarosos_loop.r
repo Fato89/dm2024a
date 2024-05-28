@@ -11,23 +11,40 @@ require("rpart")
 
 # parmatros experimento
 PARAM <- list()
-PARAM$experimento <- "3510c"
+PARAM$experimento <- "3510b"
+
+loop_parms <- list(
+  c(minsplit=50,minbucket=5,maxdepth=14)
+ # c(minsplit=100,minbucket=5,maxdepth=10),
+ # c(minsplit=100,minbucket=50,maxdepth=6),
+ # c(minsplit=250,minbucket=50,maxdepth=14),
+ # c(minsplit=500,minbucket=10,maxdepth=8),
+ # c(minsplit=500,minbucket=100,maxdepth=6),
+ # c(minsplit=1000,minbucket=20,maxdepth=10),
+ # c(minsplit=1000,minbucket=200,maxdepth=8),
+ # c(minsplit=2000,minbucket=20,maxdepth=14),
+ # c(minsplit=2000,minbucket=200,maxdepth=10)
+)
+
+purrr::map(
+  loop_parms,
+  ~{
 
 # parameetros rpart
 PARAM$rpart_param <- list(
   "cp" = -1,
-  "minsplit" = 50,
-  "minbucket" = 10,
-  "maxdepth" = 10
+  "minsplit" = .x["minsplit"],
+  "minbucket" = .x["minbucket"],
+  "maxdepth" = .x["maxdepth"]
 )
 
 # parametros  arbol
 # entreno cada arbol con solo 50% de las variables variables
-PARAM$feature_fraction <- 0.5
+PARAM$feature_fraction <- 0.1
 # voy a generar 500 arboles,
 #  a mas arboles mas tiempo de proceso y MEJOR MODELO,
 #  pero ganancias marginales
-PARAM$num_trees_max <- 500
+PARAM$num_trees_max <- 200
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
@@ -36,7 +53,7 @@ PARAM$num_trees_max <- 500
 setwd("~/buckets/b1/") # Establezco el Working Directory
 
 #cargo MI semilla, que esta en MI bucket
-tabla_semillas <- fread( "./datasets//mis_semillas.txt" )
+tabla_semillas <- fread("~/datasets//mis_semillas.txt" )
 ksemilla_azar <- tabla_semillas[ 1, semilla ]  # 1 es mi primer semilla
 
 # cargo los datos
@@ -117,6 +134,8 @@ for (arbolito in 1:PARAM$num_trees_max) {
     nom_arch <- paste0(
       "KA", PARAM$experimento, "_",
       sprintf("%.3d", arbolito), # para que tenga ceros adelante
+      "_",
+      paste(.x["minsplit"],.x["minbucket"],.x["maxdepth"],sep="_"),
       ".csv"
     )
     fwrite(entrega,
@@ -127,3 +146,5 @@ for (arbolito in 1:PARAM$num_trees_max) {
     cat(arbolito, " ")
   }
 }
+  } 
+)
