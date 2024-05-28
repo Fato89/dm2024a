@@ -59,6 +59,24 @@ carpeta_actual <- function()
   return( res )
 }
 #------------------------------------------------------------------------------
+# grabo la importancia de variables
+
+grabar_importancia <- function(modelo_final, modelo_rank, iteracion_bayesiana) {
+  tb_importancia <- as.data.table(lgb.importance(modelo_final))
+  fwrite(tb_importancia,
+    file = paste0(
+      "impo_",
+      sprintf("%02d", modelo_rank),
+      "_",
+      sprintf("%03d", iteracion_bayesiana),
+      ".txt"
+    ),
+    sep = "\t"
+  )
+
+  rm(tb_importancia)
+}
+#------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 # Aqui empieza el programa
 cat( "z591_ZZ_final.r  START\n")
@@ -106,6 +124,8 @@ dataset[, clase01 := ifelse(get(envg$PARAM$dataset_metadata$clase) %in%  envg$PA
 
 campos_buenos <- setdiff(colnames(dataset), c(envg$PARAM$dataset_metadata$clase, "clase01"))
 
+
+dir.create("modelitos", showWarnings = FALSE)
 
 # genero un modelo para cada uno de las modelos_qty MEJORES
 # iteraciones de la Bayesian Optimization
@@ -171,35 +191,41 @@ for (modelo_rank in envg$PARAM$modelos_rank) {
     )
 
     arch_modelo <- paste0(
+      "./modelitos/modelo_",
       "modelo_",
       nombre_raiz,
       ".model"
     )
 
     # genero el modelo entrenando en los datos finales
-    set.seed(parametros$seed, kind = "L'Ecuyer-CMRG")
-    modelo_final <- lightgbm(
-      data = dtrain,
-      param = parametros,
-      verbose = -100
-    )
+    if( !file.exists( arch_modelo ) )
+    {
+      cat( "\nentrenando modelo = ", sem, "  ." )
+      set.seed(parametros$seed, kind = "L'Ecuyer-CMRG")
+      modelo_final <- lightgbm(
+        data = dtrain,
+        param = parametros,
+        verbose = -100
+      )
+      cat( " ...Fin." )
 
-    # grabo el modelo, achivo .model
-    lgb.save(modelo_final,
-      file = arch_modelo
-    )
+      # grabo el modelo, achivo .model
+      lgb.save(modelo_final,
+        file = arch_modelo
+      )
 
-    # creo y grabo la importancia de variables
-    tb_importancia <- as.data.table(lgb.importance(modelo_final))
-    fwrite(tb_importancia,
-      file = paste0(
-        "impo_",
-        nombre_raiz,
-        ".txt"
-      ),
-      sep = "\t"
-    )
+      # creo y grabo la importancia de variables, solo para la primer semilla
+      if (sem == 1) {
+        cat(format(Sys.time(), "%Y%m%d %H%M%S"), "\n",
+            file = "z-Rcanresume.txt",
+            append = TRUE
+        )
 
+        grabar_importancia(modelo_final, modelo_rank, iteracion_bayesiana)
+      }
+    } else {
+       modelo_final <- lgb.load(filename = arch_modelo)
+    }
 
     # genero la prediccion, Scoring
     cat( "creo predict\n")

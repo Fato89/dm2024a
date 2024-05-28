@@ -44,10 +44,9 @@ drift_deflacion <- function(campos_monetarios) {
     0.7763107219, 0.7566381305, 0.7289384687
   )
 
-  tb_IPC <- data.table(
-    paste0(envg$PARAM$dataset_metadata$periodo) := vfoto_mes,
-    "IPC" = vIPC
-  )
+  tb_IPC <- as.data.table( list( vfoto_mes, vIPC) )
+
+ colnames( tb_IPC ) <- c( envg$PARAM$dataset_metadata$periodo, "IPC" )
 
   dataset[tb_IPC,
     on = c(envg$PARAM$dataset_metadata$periodo),

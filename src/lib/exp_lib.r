@@ -737,7 +737,7 @@ crear_experimento_nuevo <- function( pparam_local )
 
     linea9  <- "fecha1=$(date +\"%Y%m%d %H%M%S\") \n"
     linea10  <- "echo \"$fecha1\"\"$tabulador\"\"SH_END\" >> z-SHlog.txt \n"
-    linea11 <- "kill -SIGINT $memcpu_PID \n"
+    linea11 <- "kill -SIGTERM $memcpu_PID \n"
 
     comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8, linea9, linea10, linea11 )
 
