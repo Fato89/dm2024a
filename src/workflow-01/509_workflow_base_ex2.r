@@ -320,7 +320,7 @@ HT_tuning_base <- function( pinputexps, bypass=FALSE)
     neg_bagging_fraction = 0.3, # 0.0 < neg_bagging_fraction <= 1.0
     # is_unbalance = FALSE, #
     # scale_pos_weight = 1.0, # scale_pos_weight > 0.0
-    bagging_freq = 0.99,
+    bagging_freq = 1,
 
     drop_rate = 0.1, # 0.0 < neg_bagging_fraction <= 1.0
     max_drop = 50, # <=0 means no limit
