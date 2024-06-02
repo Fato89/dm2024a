@@ -382,7 +382,7 @@ ZZ_final_base9 <- function( pinputexps )
 # Que predice 202109 donde NO conozco la clase
 # y genera archivos para kaggle
 
-wf_septb <- function( pnombrewf )
+wf_septbb <- function( pnombrewf )
 {
   param_local <- exp_wf_init( pnombrewf ) # linea fija
 
@@ -406,5 +406,5 @@ wf_septb <- function( pnombrewf )
 # Aqui comienza el programa
 
 # llamo al workflow con future = 202109
-wf_septb()
+wf_septbb()
 
