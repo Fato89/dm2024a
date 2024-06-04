@@ -1,0 +1,1 @@
+Para ejecutar los scripts no es necesario realizar ningún cambio mientras se mantengan las rutas a los otros scripts en dm2024a/src/workflow-01
