@@ -290,7 +290,13 @@ for (modelo_rank in envg$PARAM$modelos_rank) {
         cat( "written prediccion Kaggle\n")
 
         # hago el submit
-        if( "competition" %in% names(envg$PARAM$kaggle) )
+        submitear <- TRUE
+        if( "rango_submit"  %in%  names(envg$PARAM$kaggle) )
+        {
+          if( !(sem %in% envg$PARAM$kaggle$rango_submit) ) submitear <- FALSE
+        }
+
+        if( "competition" %in% names(envg$PARAM$kaggle) & submitear)
         {
           l1 <- "#!/bin/bash \n"
           l2 <- "source ~/.venv/bin/activate  \n"
