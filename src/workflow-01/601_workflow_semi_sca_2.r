@@ -451,7 +451,7 @@ ZZ_final_semi_base <- function( pinputexps)
 # Que predice 202109 donde NO conozco la clase
 # y genera archivos para kaggle
 
-wf_semillerio9_1 <- function( pnombrewf )
+wf_semillerio9_2 <- function( pnombrewf )
 {
   param_local <- exp_wf_init( pnombrewf ) # linea fija
 
@@ -461,7 +461,7 @@ wf_semillerio9_1 <- function( pnombrewf )
   DR_drifting_base(metodo="rank_cero_fijo")
   FEhist_base()
   FErf_attributes_base()
-  CN_canaritos_asesinos_base(ratio=1, desvio=0)
+  #CN_canaritos_asesinos_base(ratio=1, desvio=0)
 
   ts9 <- TS_strategy_base9()
   ht <- HT_tuning_base()
@@ -474,4 +474,4 @@ wf_semillerio9_1 <- function( pnombrewf )
 
 
 # llamo al workflow con future = 202109
-wf_semillerio9_1()
+wf_semillerio9_2()
