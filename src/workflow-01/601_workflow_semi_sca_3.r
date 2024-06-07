@@ -426,8 +426,8 @@ ZZ_final_semi_base <- function( pinputexps)
   param_local$train$gan0 <-  -3000
   param_local$train$meseta <- 2001
 
-  param_local$kaggle$envios_desde <-  9000L
-  param_local$kaggle$envios_hasta <- 12000L
+  param_local$kaggle$envios_desde <-  8000L
+  param_local$kaggle$envios_hasta <- 14000L
   param_local$kaggle$envios_salto <-   500L
   param_local$kaggle$competition <- "itba-data-mining-2024-a"
 
